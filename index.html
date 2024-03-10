@@ -9,25 +9,16 @@
 </head>
 <body>
     
-    <div  class="container d-flex justify-content-center align-items-center" style="height: 50vh;" id="day-cards">
-        <div class="row">
-
-            <div  class="col-md-6">
-                <div class="card mx-5">
-                    <div class="card-body">
-                        <h2 class="card-title">Monday</h2>
-                        <div class="card-text" id="data-container"></div>
-                    </div>
-                </div>
-            </div>
-            
+    <div class="container d-flex justify-content-center align-items-center" style="height: 50vh" id="day-cards">
+        <div class="row" id="weather-container"></div>
+    </div>
     <section class="d-flex justify-content-center align-items-center" style="height: 15vh;" id="form">
         <div class="container">
             <h1> Easy Weather</h1>
-            <form>
-                <label for="text" class="form-label">City: </label>
-                <input type="search" name="City" id="city-name" placeholder="ex. Beaverton" class="form-control">
-                <button class="btn btn-primary" id="search-button">Search</button>
+            <form id="search-form">
+                <label for="city-input" class="form-label">City: </label>
+                <input type="text" id="city-input" placeholder="Enter city name" class="form-control">
+                <button type="submit" class="btn btn-primary">Search</button>
             </form>
         </div>
     </section>

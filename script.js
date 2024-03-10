@@ -1,55 +1,40 @@
 const weatherApp = {
-    initialize: function() {
-        console.log('initialize');
-        this.getWeatherData(this.numberOfDaysToShow);
-    },
-
-    getWeatherData: function (){
-        console.log();
-        const data = fetch("http://api.weatherapi.com/v1/forecast.json?key=1307cbf4acfb47bca2964553240903&q=Beaverton&days=5&aqi=no&alerts=no", {
-            method: 'GET',
-          })
-            .then(function (response) {
-              return response.json();
-            })
-            .then(function (data) {
-              // console.log(data.forecast);
+  initialize: function() {
+      console.log('initialize');
+      this.getWeatherData();
+  },
+  
+  getWeatherData: function() {
+      $.ajax({
+          url: "http://api.weatherapi.com/v1/forecast.json?key=1307cbf4acfb47bca2964553240903&q=Beaverton&days=5&aqi=no&alerts=no",
+          method: 'GET',
+          success: function(data) {
               window.weatherApp.renderWeatherData(data);
-              
-            });
-                   
-          },
-        
-    renderWeatherData: function (data) {
-      let output = '';
-      
-      // console.log(data.forecast.forecastday);
-      const items = data.forecast.forecastday.map(function(item) {
-        const output = '<div class="card">' + item.date + '<div/>';
-        console.log(output);
-        return output;
+              console.log(data);
+          }
       });
-
-      // console.log(output);
-    },
-
-    onSearch: function() {
-        console.log();
-        this.getWeatherData();
-    },
-
-    numberOfDaysToShow: 5
-  }
-
-  window.weatherApp = weatherApp;
-
+  },
   
-  weatherApp.initialize();
+  renderWeatherData: function(data) {
+      const forecastDays = data.forecast.forecastday;
+      const container = $('#weather-container');
+      
+      forecastDays.forEach(function(day) {
+          const card = $('<div>').addClass('col').html(`<p>Date: ${day.date}</p><p>Temp: ${day.day.maxtemp_f}°F`);
+          
+          container.append(card); // Append the card to the weather-container row
+      });
+  },
+  setupSearchForm: function() {
+    const form = $('#search-form');
+    
+    form.on('submit', function(event) {
+        event.preventDefault();
+        const city = $('#city-input').val();
+        weatherApp.getWeatherData(city);
+    });
+}
+};
 
-  // async function logMovies() {
-  //   const response = await fetch("http://example.com/movies.json");
-  //   const movies = await response.json();
-  //   console.log(movies);
-  // }
-
-  
+window.weatherApp = weatherApp;
+weatherApp.initialize();
